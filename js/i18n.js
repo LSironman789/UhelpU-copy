@@ -344,17 +344,17 @@ const _dict = {
     hint_level8:
       "让本体和分身同时踩下两个按钮，使宝箱出现。打开宝箱后可获得 2 颗炸弹。回放阶段按 [1]，可让过去的自己在当前位置放置炸弹。炸毁落石堆与激光碉堡后，前往终点传送门。",
     level8_room0_prompt:
-      "让两个按钮同时被按下。\n宝箱会随机出现在其中一个按钮附近。",
+      "同时按下两个按钮。\n宝箱会随机刷新在其中一个按钮附近。",
     level8_room1_prompt:
       "炸弹可以清除落石堆。\n先录制路线, 再进行回放。",
     level8_room2_prompt:
-      "碉堡只会威胁现在的自己。\n录制与回放期间, 它不会锁定你。",
+      "碉堡只会威胁你的本体。\n录制与回放期间, 它不会锁定你的分身。",
     level8_hud_bombs: "炸弹",
     level8_hud_objectives: "障碍进度",
     level8_hud_place_bomb: "回放时按 [1] 放置炸弹",
     level8_notice_chest_spawned: "宝箱出现了。",
     level8_notice_opened_chest:
-      "你获得了 2 颗炸弹。先录制路线，再在回放时按 [1] 放置炸弹。",
+      "你获得了 2 颗炸弹。先录制路线，并在回放时按 [1] 放置炸弹。",
     level8_notice_move_closer: "先靠近宝箱再打开。",
     level8_notice_need_replay: "只有在回放阶段才能放置炸弹。",
     level8_notice_need_chest: "请先打开宝箱。",
