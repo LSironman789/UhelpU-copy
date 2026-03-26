@@ -124,8 +124,8 @@ const _dict = {
     level7_info_left: "level 7",
     level7_info_right: "Difficulty\n💜",
     level8_title: "Level 8",
-    level8_info_left: "level 8",
-    level8_info_right: "Difficulty\n💜",
+    level8_info_left: "level 8\nBoom & Bunker",
+    level8_info_right: "Difficulty\n💜💜💜",
     hint_level8:
     "Use both selves to press the two buttons and make the chest appear. Open it to get 2 bombs. During replay, press [1] to place a bomb at the Past Self's position. Destroy the rock pile and the laser bunker, then reach the portal.",
     level8_room0_prompt:
@@ -139,7 +139,7 @@ const _dict = {
     level8_hud_place_bomb: "[1] Place bomb during replay",
     level8_notice_chest_spawned: "The chest has appeared.",
     level8_notice_opened_chest:
-      "You got 2 bombs. Record a route, then press [1] during replay.",
+      "You got 2 bombs. Press [1] to place during replay.",
     level8_notice_move_closer: "Move closer to the chest first.",
     level8_notice_need_replay: "Bombs can only be placed during replay.",
     level8_notice_need_chest: "Open the chest first.",
@@ -339,8 +339,8 @@ const _dict = {
     level7_info_left: "第七关",
     level7_info_right: "难度\n🩷",
     level8_title: "第八关",
-    level8_info_left: "第八关",
-    level8_info_right: "难度\n🩷",
+    level8_info_left: "第八关\n爆破/碉堡",
+    level8_info_right: "难度\n🩷🩷🩷",
     hint_level8:
       "让本体和分身同时踩下两个按钮，使宝箱出现。打开宝箱后可获得 2 颗炸弹。回放阶段按 [1]，可让过去的自己在当前位置放置炸弹。炸毁落石堆与激光碉堡后，前往终点传送门。",
     level8_room0_prompt:
