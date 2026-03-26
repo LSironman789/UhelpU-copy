@@ -126,6 +126,26 @@ const _dict = {
     level8_title: "Level 8",
     level8_info_left: "level 8",
     level8_info_right: "Difficulty\n💜",
+    hint_level8:
+    "Use both selves to press the two buttons and make the chest appear. Open it to get 2 bombs. During replay, press [1] to place a bomb at the Past Self's position. Destroy the rock pile and the laser bunker, then reach the portal.",
+    level8_room0_prompt:
+      "Press both buttons at the same time.\nThe chest will appear near one of them.",
+    level8_room1_prompt:
+      "A bomb can clear the rock pile.\nRecord a route, then replay it.",
+    level8_room2_prompt:
+      "The bunker only threatens the Present Self.\nIt stops targeting during recording and replay.",
+    level8_hud_bombs: "Bombs",
+    level8_hud_objectives: "Obstacles",
+    level8_hud_place_bomb: "[1] Place bomb during replay",
+    level8_notice_chest_spawned: "The chest has appeared.",
+    level8_notice_opened_chest:
+      "You got 2 bombs. Record a route, then press [1] during replay.",
+    level8_notice_move_closer: "Move closer to the chest first.",
+    level8_notice_need_replay: "Bombs can only be placed during replay.",
+    level8_notice_need_chest: "Open the chest first.",
+    level8_notice_no_bombs: "No bombs left.",
+    level8_notice_exit_ready:
+      "Both obstacles are cleared. The exit portal is now open.",
     level9_title: "Level 9",
     level9_info_left: "level 9",
     level9_info_right: "Difficulty\n💜",
@@ -321,6 +341,26 @@ const _dict = {
     level8_title: "第八关",
     level8_info_left: "第八关",
     level8_info_right: "难度\n🩷",
+    hint_level8:
+      "让本体和分身同时踩下两个按钮，使宝箱出现。打开宝箱后可获得 2 颗炸弹。回放阶段按 [1]，可让过去的自己在当前位置放置炸弹。炸毁落石堆与激光碉堡后，前往终点传送门。",
+    level8_room0_prompt:
+      "让两个按钮同时被按下。\n宝箱会随机出现在其中一个按钮附近。",
+    level8_room1_prompt:
+      "炸弹可以清除落石堆。\n先录制路线, 再进行回放。",
+    level8_room2_prompt:
+      "碉堡只会威胁现在的自己。\n录制与回放期间, 它不会锁定你。",
+    level8_hud_bombs: "炸弹",
+    level8_hud_objectives: "障碍进度",
+    level8_hud_place_bomb: "回放时按 [1] 放置炸弹",
+    level8_notice_chest_spawned: "宝箱出现了。",
+    level8_notice_opened_chest:
+      "你获得了 2 颗炸弹。先录制路线，再在回放时按 [1] 放置炸弹。",
+    level8_notice_move_closer: "先靠近宝箱再打开。",
+    level8_notice_need_replay: "只有在回放阶段才能放置炸弹。",
+    level8_notice_need_chest: "请先打开宝箱。",
+    level8_notice_no_bombs: "炸弹已经用完了。",
+    level8_notice_exit_ready:
+      "两个障碍都已清除，终点传送门已开启。",
     level9_title: "第九关",
     level9_info_left: "第九关",
     level9_info_right: "难度\n🩷",
