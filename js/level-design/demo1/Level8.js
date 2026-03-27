@@ -1,28 +1,30 @@
 import {
-  Player,
-  Replayer,
-  Ground,
-  Wall,
-  Portal,
-  Button,
-  Spike,
-  Platform,
-  TextPrompt,
-  KeyPrompt,
-  GameEntity,
-} from "../game-entity-model/index.js";
-import { ColliderType } from "../collision-system/enumerator.js";
-import { CollisionSystem } from "../collision-system/CollisionSystem.js";
-import { PhysicsSystem } from "../physics-system/PhysicsSystem.js";
-import { RecordSystem } from "../record-system/RecordSystem.js";
-import { BaseLevel } from "./BaseLevel.js";
-import { Assets } from "../AssetsManager.js";
-import { Room } from "./Room.js";
-import { EventTypes } from "../event-system/EventTypes.js";
-import { KeyBindingManager } from "../key-binding-system/KeyBindingManager.js";
-import { keyCodeToLabel } from "../record-system/RecordKeyUtil.js";
-import { isGamePaused } from "../game-runtime/GamePauseState.js";
-import { t } from "../i18n.js";
+    Player,
+    Replayer,
+    Ground,
+    Wall,
+    Portal,
+    Button,
+    Spike,
+    Platform,
+    TextPrompt,
+    KeyPrompt,
+    GameEntity,
+    Bomb,
+    Turret
+} from "../../game-entity-model/index.js";
+import { ColliderType } from "../../collision-system/enumerator.js";
+import { CollisionSystem } from "../../collision-system/CollisionSystem.js";
+import { PhysicsSystem } from "../../physics-system/PhysicsSystem.js";
+import { RecordSystem } from "../../record-system/RecordSystem.js";
+import { BaseLevel } from "../BaseLevel.js";
+import { Assets } from "../../AssetsManager.js";
+import { Room } from "../Room.js";
+import { EventTypes } from "../../event-system/EventTypes.js";
+import { KeyBindingManager } from "../../key-binding-system/KeyBindingManager.js";
+import { keyCodeToLabel } from "../../record-system/RecordKeyUtil.js";
+import { isGamePaused } from "../../game-runtime/GamePauseState.js";
+import { t } from "../../i18n.js";
 
 const WALL_THICKNESS = 20;
 const PLAYER_SIZE = 40;
@@ -31,12 +33,6 @@ const BOMB_RADIUS = 128;
 const BOMB_SIZE = 20;
 const REPLAY_BOMB_COOLDOWN_MS = 220;
 const TURRET_LOCK_TIME_MS = 650;
-import { CollisionSystem } from "../../collision-system/CollisionSystem.js";
-import { PhysicsSystem } from "../../physics-system/PhysicsSystem.js";
-import { RecordSystem } from "../../record-system/RecordSystem.js";
-import { BaseLevel } from "../BaseLevel.js";
-import { Assets } from "../../AssetsManager.js";
-import { Room } from "../Room.js";
 
 export class Level8 extends BaseLevel {
   constructor(p, eventBus) {
