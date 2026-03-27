@@ -7,9 +7,12 @@ import {
 import { Assets } from "../../AssetsManager.js";
 
 export class Portal extends GameEntity {
-  constructor(x, y, w, h) {
+  static DEFAULT_SIZE = 50;
+
+  constructor(x, y, w = Portal.DEFAULT_SIZE, h = Portal.DEFAULT_SIZE) {
     super(x, y);
     this.type = "portal";
+    this.zIndex = 0;
     this.movementComponent = null;
     this.collider = new RectangleCollider(ColliderType.TRIGGER, w, h);
     this.isOpen = false;
@@ -41,7 +44,9 @@ export class Portal extends GameEntity {
     }
 
     // 再绘制贴图（在独立的变换空间中）
-    const sprite = Assets.tileImage_goal;
+    const sprite = this.isOpen
+      ? Assets.tileImage_doorOpen
+      : Assets.tileImage_doorClose;
     if (sprite) {
       p.push();
       p.translate(this.x, this.y + h);

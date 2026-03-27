@@ -22,14 +22,14 @@ export class StaticPageMenu extends PageBase {
     subtitle.position(0.5 * p.width, 0.45 * p.height);
     this.addElement(subtitle);
 
-    // PLAY 按钮 → 进入开场动画
+    // PLAY 按钮 → 进入世界选择
     const startBtn = new ButtonBase(
       p,
       t("btn_play"),
       0.456 * p.width,
       0.794 * p.height,
       () => {
-        this.switcher.showOpeningScene(p);
+        this.switcher.showWorldSelect(p);
       },
       "start-button",
     );
@@ -76,6 +76,25 @@ export class StaticPageMenu extends PageBase {
       0.04 * p.width,
       60,
     );
+
+    // M 键快捷进入 Demo2 Level10 开发者模式
+    this._onDevModeKey = (e) => {
+      if (e.key === "m" || e.key === "M") {
+        document.removeEventListener("keydown", this._onDevModeKey);
+        this._onDevModeKey = null;
+        this.eventBus.publish("loadLevel", "demo2_level10");
+        this.eventBus.publish("activateDevMode");
+      }
+    };
+    document.addEventListener("keydown", this._onDevModeKey);
+  }
+
+  exit() {
+    if (this._onDevModeKey) {
+      document.removeEventListener("keydown", this._onDevModeKey);
+      this._onDevModeKey = null;
+    }
+    super.exit();
   }
 
   update() {

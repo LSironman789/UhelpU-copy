@@ -20,6 +20,7 @@ export const Assets = {
   bgImageLevelChoice: null,
   bgImageOpeningScene: null,
   bgImageAchieves: null,
+  bgImageWorldSelect: null,
   bgImageLevel1: null,
 
   // 成就图标（1.png ~ 10.png）
@@ -33,6 +34,7 @@ export const Assets = {
   bgImageLevel8: null,
   bgImageLevel9: null,
   bgImageLevel10: null,
+  bgImageDemo2Level: null,
 
   // 本体贴图（5方向）
   playerImg_right: null,
@@ -63,6 +65,8 @@ export const Assets = {
   tileImage_signboard: null,
   tileImage_signboard2: null,
   tileImage_Jump: null,
+  tileImage_doorOpen: null,
+  tileImage_doorClose: null,
 
   // 安全加载：失败时返回 null 而不是抛异常
   async _safeLoad(promise, name) {
@@ -95,6 +99,10 @@ export const Assets = {
       this._safeLoad(
         p.loadImage("assets/images/bg/achieve.png"),
         "Achieves页背景",
+      ),
+      this._safeLoad(
+        p.loadImage("assets/images/bg/general.png"),
+        "世界选择页背景",
       ),
       this._safeLoad(p.loadImage("assets/images/bg/level1.png"), "关卡1背景"),
       this._safeLoad(p.loadImage("assets/images/bg/level2.png"), "关卡2背景"),
@@ -227,6 +235,18 @@ export const Assets = {
       this._safeLoad(p.loadImage("assets/images/achieve/9.png"), "成就图标9"),
       this._safeLoad(p.loadImage("assets/images/achieve/10.png"), "成就图标10"),
       this._safeLoad(p.loadImage("assets/images/tiles/Jump.png"), "Jump贴图"),
+      this._safeLoad(
+        p.loadImage("assets/images/tiles/dooropen.png"),
+        "门开贴图",
+      ),
+      this._safeLoad(
+        p.loadImage("assets/images/tiles/doorclose.png"),
+        "门关贴图",
+      ),
+      this._safeLoad(
+        p.loadImage("assets/images/bg/demo2levelbg.png"),
+        "Demo2关卡背景",
+      ),
     ]);
 
     // 按顺序赋值
@@ -235,69 +255,72 @@ export const Assets = {
     this.bgImageLevelChoice = results[2];
     this.bgImageOpeningScene = results[3];
     this.bgImageAchieves = results[4];
-    this.bgImageLevel1 = results[5];
-    this.bgImageLevel2 = results[6];
-    this.bgImageLevel3 = results[7];
-    this.bgImageLevel4 = results[8];
-    this.bgImageLevel5 = results[9];
-    this.bgImageLevel6 = results[10];
-    this.bgImageLevel7 = results[11];
-    this.bgImageLevel8 = results[12];
-    this.bgImageLevel9 = results[13];
-    this.bgImageLevel10 = results[14];
-    this.followerImg1 = results[15];
-    this.followerImg2 = results[16];
-    this.customFont = results[17];
-    this.storyTexts_en = results[18];
-    this.storyTexts_zh = results[19];
+    this.bgImageWorldSelect = results[5];
+    this.bgImageLevel1 = results[6];
+    this.bgImageLevel2 = results[7];
+    this.bgImageLevel3 = results[8];
+    this.bgImageLevel4 = results[9];
+    this.bgImageLevel5 = results[10];
+    this.bgImageLevel6 = results[11];
+    this.bgImageLevel7 = results[12];
+    this.bgImageLevel8 = results[13];
+    this.bgImageLevel9 = results[14];
+    this.bgImageLevel10 = results[15];
+    this.followerImg1 = results[16];
+    this.followerImg2 = results[17];
+    this.customFont = results[18];
+    this.storyTexts_en = results[19];
+    this.storyTexts_zh = results[20];
     // 本体贴图
-    this.playerImg_right = results[20];
-    this.playerImg_left = results[21];
-    this.playerImg_up = results[22];
-    this.playerImg_upRight = results[23];
-    this.playerImg_upLeft = results[24];
-    this.playerImg_dead = results[25];
+    this.playerImg_right = results[21];
+    this.playerImg_left = results[22];
+    this.playerImg_up = results[23];
+    this.playerImg_upRight = results[24];
+    this.playerImg_upLeft = results[25];
+    this.playerImg_dead = results[26];
     this.playerIdleImgs = [
-      results[26],
       results[27],
       results[28],
       results[29],
       results[30],
       results[31],
+      results[32],
     ];
     // 分身贴图
-    this.cloneImg_right = results[32];
-    this.cloneImg_left = results[33];
-    this.cloneImg_up = results[34];
-    this.cloneImg_upRight = results[35];
-    this.cloneImg_upLeft = results[36];
+    this.cloneImg_right = results[33];
+    this.cloneImg_left = results[34];
+    this.cloneImg_up = results[35];
+    this.cloneImg_upRight = results[36];
+    this.cloneImg_upLeft = results[37];
     this.cloneIdleImgs = [
-      results[37],
       results[38],
       results[39],
       results[40],
       results[41],
       results[42],
+      results[43],
     ];
     // NPC 贴图
     this.npcIdleImgs = [
-      results[43],
       results[44],
       results[45],
       results[46],
       results[47],
+      results[48],
     ];
-    this.npcFaceImg = results[48];
+    this.npcFaceImg = results[49];
     // 地块贴图
-    this.tileImage_goal = results[49];
-    this.tileImage_ground = results[50];
-    this.tileImage_platform = results[51];
-    this.tileImage_wall = results[52];
-    this.tileImage_signboard = results[53];
-    this.tileImage_signboard2 = results[54];
-    this.tileImage_Jump = results[65];
+    this.tileImage_goal = results[50];
+    this.tileImage_ground = results[51];
+    this.tileImage_platform = results[52];
+    this.tileImage_wall = results[53];
+    this.tileImage_signboard = results[54];
+    this.tileImage_signboard2 = results[55];
+    this.tileImage_Jump = results[66];
+    this.tileImage_doorOpen = results[67];
+    this.tileImage_doorClose = results[68];
+    this.bgImageDemo2Level = results[69];
     this.achieveImgs = [
-      results[55],
       results[56],
       results[57],
       results[58],
@@ -307,6 +330,7 @@ export const Assets = {
       results[62],
       results[63],
       results[64],
+      results[65],
     ];
   },
 };

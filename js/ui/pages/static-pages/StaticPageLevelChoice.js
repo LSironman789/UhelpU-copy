@@ -1,5 +1,6 @@
 import { PageBase } from "../PageBase.js";
 import { ButtonBase } from "../../components/ButtonBase.js";
+import { BackButton } from "../../components/BackButton.js";
 import { FollowImage } from "../../components/FollowImage.js";
 import { LevelInfo } from "../../components/LevelInfo.js";
 import { Assets } from "../../../AssetsManager.js";
@@ -20,20 +21,7 @@ export class StaticPageLevelChoice extends PageBase {
 
     AudioManager.playBGM("levelChoice");
 
-    // 返回按钮
-    const backBtn = new ButtonBase(
-      p,
-      "◀",
-      0.02 * p.width,
-      0.03 * p.height,
-      () => {
-        this.switcher.showMainMenu(p);
-      },
-      "back-button",
-    );
-    backBtn.btn.style("width", 0.04 * p.width + "px");
-    backBtn.btn.style("height", 0.065 * p.height + "px");
-    this.addElement(backBtn);
+    this.addElement(new BackButton(p, () => this.switcher.showWorldSelect(p)));
 
     // 关卡按钮配置 — 上排 1-5，下排 6-10
     const topRowConfigs = [

@@ -1,18 +1,28 @@
-import { Level1 } from "./Level1.js";
-import { Level2 } from "./Level2.js";
-import { Level3 } from "./Level3.js";
-import { Level4 } from "./Level4.js";
-import { Level5 } from "./Level5.js";
-import { Level6 } from "./Level6.js";
-import { Level7 } from "./Level7.js";
-import { Level8 } from "./Level8.js";
-import { Level9 } from "./Level9.js";
-import { Level10 } from "./Level10.js";
+import { Level1 } from "./demo1/Level1.js";
+import { Level2 } from "./demo1/Level2.js";
+import { Level3 } from "./demo1/Level3.js";
+import { Level4 } from "./demo1/Level4.js";
+import { Level5 } from "./demo1/Level5.js";
+import { Level6 } from "./demo1/Level6.js";
+import { Level7 } from "./demo1/Level7.js";
+import { Level8 } from "./demo1/Level8.js";
+import { Level9 } from "./demo1/Level9.js";
+import { Level10 } from "./demo1/Level10.js";
+import { Level1 as Demo2Level1 } from "./demo2/Level1.js";
+import { Level2 as Demo2Level2 } from "./demo2/Level2.js";
+import { Level3 as Demo2Level3 } from "./demo2/Level3.js";
+import { Level4 as Demo2Level4 } from "./demo2/Level4.js";
+import { Level5 as Demo2Level5 } from "./demo2/Level5.js";
+import { Level6 as Demo2Level6 } from "./demo2/Level6.js";
+import { Level7 as Demo2Level7 } from "./demo2/Level7.js";
+import { Level8 as Demo2Level8 } from "./demo2/Level8.js";
+import { Level9 as Demo2Level9 } from "./demo2/Level9.js";
+import { Level10 as Demo2Level10 } from "./demo2/Level10.js";
 import { setGamePaused, isGamePaused } from "../game-runtime/GamePauseState.js";
 import { EventTypes } from "../event-system/EventTypes.js";
 import { Assets } from "../AssetsManager.js";
 import { t } from "../i18n.js";
-import { KeyBindingManager } from "../key-binding-system/KeyBindingManager.js";
+import { CheckpointSystem } from "./CheckpointSystem.js";
 
 export class LevelManager {
   constructor(p, eventBus) {
@@ -29,6 +39,16 @@ export class LevelManager {
       level8: Level8,
       level9: Level9,
       level10: Level10,
+      demo2_level1: Demo2Level1,
+      demo2_level2: Demo2Level2,
+      demo2_level3: Demo2Level3,
+      demo2_level4: Demo2Level4,
+      demo2_level5: Demo2Level5,
+      demo2_level6: Demo2Level6,
+      demo2_level7: Demo2Level7,
+      demo2_level8: Demo2Level8,
+      demo2_level9: Demo2Level9,
+      demo2_level10: Demo2Level10,
     };
     this.level = null;
     this.currentLevelIndex = null;
@@ -44,15 +64,8 @@ export class LevelManager {
       titleKey: "",
     };
 
-    // 回到最近已激活存档点
-    this._keyBindingManager = KeyBindingManager.getInstance();
-    this._onTeleportKeyDown = (e) => {
-      const teleportKey =
-        this._keyBindingManager.getKeyByIntent("teleportCheckpoint");
-      if (teleportKey && e.code === teleportKey)
-        this._teleportToNearestCheckpoint();
-    };
-    document.addEventListener("keydown", this._onTeleportKeyDown);
+    // 存档点系统
+    this._checkpointSystem = new CheckpointSystem(() => this.level);
   }
 
   startLevelTitleOverlay(levelIndex, p = this.p) {
@@ -151,6 +164,8 @@ export class LevelManager {
     if (!this.level) {
       const LevelClass = this.levelMap[levelIndex];
       this.level = new LevelClass(p, eventBus);
+      this.level.__levelIndex = levelIndex;
+      this.level.__editorPersistenceKey = levelIndex;
       this.currentLevelIndex = levelIndex;
       this.cameraNudgeX = 0;
       this.startLevelTitleOverlay(levelIndex, p);
@@ -188,7 +203,13 @@ export class LevelManager {
       return;
     }
 
-    this.updateCameraNudge();
+    // 编辑器激活时禁用镜头微移，避免鼠标坐标与渲染位置不一致
+    const editorActive = this.level?._mapEditor?.active;
+    if (!editorActive) {
+      this.updateCameraNudge();
+    } else {
+      this.cameraNudgeX = 0;
+    }
     const renderNudgeX = Math.round(this.cameraNudgeX);
     this.flipY(p);
     this.level.clearCanvas &&
@@ -277,77 +298,15 @@ export class LevelManager {
         player.y + player.collider.h < viewBounds.minY
       ) {
         // 查找最近的已激活存档点
-        const checkpoint = this._findNearestActivatedCheckpoint(player);
+        const checkpoint =
+          this._checkpointSystem.findNearestActivatedCheckpoint(player);
         if (checkpoint) {
-          this._respawnPlayerAtCheckpoint(player, checkpoint);
+          this._checkpointSystem.respawnPlayerAtCheckpoint(player, checkpoint);
         } else {
           // 没有存档点，发布结算事件
           eventBus && eventBus.publish(EventTypes.AUTO_RESULT, "autoResult2");
         }
       }
-    }
-  }
-
-  // 查找离玩家最近的已激活存档点
-  _findNearestActivatedCheckpoint(player) {
-    let nearest = null;
-    let minDist = Infinity;
-    for (const entity of this.level.entities) {
-      if (entity.type === "checkpoint" && entity.activated) {
-        const dx = entity.x - player.x;
-        const dy = entity.y - player.y;
-        const dist = dx * dx + dy * dy;
-        if (dist < minDist) {
-          minDist = dist;
-          nearest = entity;
-        }
-      }
-    }
-    return nearest;
-  }
-
-  // 在存档点位置重生玩家
-  _respawnPlayerAtCheckpoint(player, checkpoint) {
-    player.x = checkpoint.x;
-    player.y = checkpoint.y;
-    player.deathState.isDead = false;
-    player.deathState.initialized = false;
-    player.deathState.deathType = null;
-    if (player.movementComponent) {
-      player.movementComponent.velX = 0;
-      player.movementComponent.velY = 0;
-    }
-    // 重置控制器输入状态，防止残留按键导致自动移动
-    if (player.controllerManager) {
-      player.controllerManager.resetInputState();
-    }
-  }
-
-  // 按B键传送到最近的已激活存档点
-  _teleportToNearestCheckpoint() {
-    if (!this.level) return;
-    if (isGamePaused()) return;
-
-    let player = null;
-    for (const entity of this.level.entities) {
-      if (entity.type === "player") {
-        player = entity;
-        break;
-      }
-    }
-    if (!player || (player.deathState && player.deathState.isDead)) return;
-
-    const checkpoint = this._findNearestActivatedCheckpoint(player);
-    if (!checkpoint) return;
-
-    player.x = checkpoint.x;
-    player.y = checkpoint.y;
-    if (player.movementComponent) {
-      player.movementComponent.velX = 0;
-      player.movementComponent.velY = 0;
-    }
-    if (player.controllerManager) {
-      player.controllerManager.resetInputState();
     }
   }
 }
