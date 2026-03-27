@@ -1005,58 +1005,69 @@ class Level8Bomb {
   draw(p) {
   const sheet = Assets.level8BombSheet;
 
-  // 如果图片没加载成功，就退回到原来的光圈特效
+  // 如果贴图没加载成功，就退回到简易圆球画法
   if (!sheet) {
-    const t = 1 - this.life / this.maxLife;
-    const alpha = 180 * (1 - t);
-    const r = this.radius * (0.18 + t * 0.82);
-
     p.push();
-    p.noFill();
-    p.stroke(255, 210, 120, alpha);
-    p.strokeWeight(10 * (1 - t) + 2);
-    p.circle(this.x, this.y, r * 2);
-    p.stroke(255, 120, 90, alpha * 0.8);
-    p.strokeWeight(4 * (1 - t) + 1);
-    p.circle(this.x, this.y, r * 1.35);
+    p.noStroke();
+    p.fill(35, 35, 42);
+    p.circle(this.x + this.size / 2, this.y + this.size / 2, this.size);
+    p.fill(255, 90, 110);
+    p.circle(this.x + this.size / 2, this.y + this.size / 2, this.size * 0.42);
     p.pop();
     return;
   }
 
-  const progress = 1 - this.life / this.maxLife;
+  const nowMs = performance.now();
+  const progress = Math.min(0.999, (nowMs - this.startMs) / this.durationMs);
 
-  // 下排 4 帧爆炸：0,1,2,3
+  // 上排 4 帧炸弹
   const frame = Math.min(3, Math.floor(progress * 4));
 
   const cellW = sheet.width / 4;
   const cellH = sheet.height / 2;
 
   const sx = frame * cellW;
-  const sy = cellH;
+  const sy = 0;
 
-  // 爆炸画大一点
-  const drawW = this.radius * 1.5;
-  const drawH = this.radius * 1.5;
+  const drawSize = 42;
 
   p.push();
   p.image(
     sheet,
-    this.x - drawW / 2,
-    this.y - drawH / 2,
-    drawW,
-    drawH,
+    this.x - 10,
+    this.y - 18,
+    drawSize,
+    drawSize,
     sx,
     sy,
     cellW,
     cellH,
   );
   p.pop();
+ }
 }
 
-draw(p) {
+class Level8ExplosionEffect {
+  constructor(x, y, radius) {
+    this.x = x;
+    this.y = y;
+    this.radius = radius;
+    this.life = 18;
+    this.maxLife = 18;
+  }
+
+  update() {
+    this.life -= 1;
+  }
+
+  isFinished() {
+    return this.life <= 0;
+  }
+
+  draw(p) {
   const sheet = Assets.level8BombSheet;
 
-  // 如果图片没加载成功，就退回到原来的光圈特效
+  // 如果贴图没加载成功，就退回到原来的光圈爆炸
   if (!sheet) {
     const t = 1 - this.life / this.maxLife;
     const alpha = 180 * (1 - t);
@@ -1076,7 +1087,7 @@ draw(p) {
 
   const progress = 1 - this.life / this.maxLife;
 
-  // 下排 4 帧爆炸：0,1,2,3
+  // 下排 4 帧爆炸
   const frame = Math.min(3, Math.floor(progress * 4));
 
   const cellW = sheet.width / 4;
@@ -1085,7 +1096,6 @@ draw(p) {
   const sx = frame * cellW;
   const sy = cellH;
 
-  // 爆炸画大一点
   const drawW = this.radius * 1.5;
   const drawH = this.radius * 1.5;
 
