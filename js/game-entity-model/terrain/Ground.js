@@ -1,3 +1,4 @@
+// 游戏里面的地板之类的
 import { GameEntity } from "../base/GameEntity.js";
 import { RectangleCollider } from "../../collision-system/CollideComponent.js";
 import {
