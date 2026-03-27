@@ -31,7 +31,6 @@ const BOMB_RADIUS = 128;
 const BOMB_SIZE = 20;
 const REPLAY_BOMB_COOLDOWN_MS = 220;
 const TURRET_LOCK_TIME_MS = 650;
-import { Player, Bomb, Turret } from "../../game-entity-model/index.js";
 import { CollisionSystem } from "../../collision-system/CollisionSystem.js";
 import { PhysicsSystem } from "../../physics-system/PhysicsSystem.js";
 import { RecordSystem } from "../../record-system/RecordSystem.js";
