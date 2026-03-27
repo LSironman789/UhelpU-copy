@@ -32,6 +32,7 @@ export const Assets = {
   bgImageLevel6: null,
   bgImageLevel7: null,
   bgImageLevel8: null,
+  level8BombSheet: null,
   bgImageLevel9: null,
   bgImageLevel10: null,
   bgImageDemo2Level: null,
@@ -82,6 +83,8 @@ export const Assets = {
 
   // 预加载所有资源（async/await，适配 p5.js 2.0）
   async loadAll(p) {
+    this.level8BombSheet = await p.loadImage("assets/images/level8/bomb_sheet.png");
+
     const results = await Promise.all([
       this._safeLoad(p.loadImage("assets/images/bg/menu.png"), "菜单背景"),
       this._safeLoad(
