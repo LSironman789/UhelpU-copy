@@ -515,7 +515,7 @@ export class Level8 extends BaseLevel {
     this._room0Chest.opened = true;
     this._chestOpened = true;
     this._bombCount = 2;
-    this._showNotice("level8_notice_opened_chest", 3200);
+    this._showNotice("level8_notice_opened_chest", 8500);
   }
 
   _tryPlaceBombAtReplayer() {
@@ -696,7 +696,7 @@ export class Level8 extends BaseLevel {
     if (this._rockDestroyed && this._turretDestroyed) {
       this._exitUnlocked = true;
       this._room2ExitPortal.openPortal();
-      this._showNotice("level8_notice_exit_ready", 3200);
+      this._showNotice("level8_notice_exit_ready", 8500);
     }
   }
 
@@ -750,10 +750,10 @@ export class Level8 extends BaseLevel {
     p.push();
     p.resetMatrix();
 
-    const panelX = 20;
+    const panelX = 150;
     const panelY = 16;
-    const panelW = 272;
-    const panelH = 110;
+    const panelW = 180;
+    const panelH = 75;
 
     p.noStroke();
     p.fill(45, 20, 70, 170);
@@ -784,18 +784,27 @@ export class Level8 extends BaseLevel {
     }
 
     if (this._noticeKey && nowMs < this._noticeUntilMs) {
-      p.noStroke();
-      p.fill(34, 18, 56, 210);
-      p.rect(p.width / 2 - 240, 18, 480, 52, 10);
-      p.stroke(255, 226, 160, 120);
-      p.noFill();
-      p.rect(p.width / 2 - 240, 18, 480, 52, 10);
-      p.noStroke();
-      p.fill(255, 247, 224);
-      p.textAlign(p.CENTER, p.CENTER);
-      p.textSize(15);
-      p.text(t(this._noticeKey), p.width / 2, 44);
-    }
+    // 💡 在这里调整位置和大小
+    const boxW = 560; // 框的宽度 (原为480，放大以容纳大字)
+    const boxH = 70;  // 框的高度 (原为52)
+    const boxY = 200; // 💡 框的上下位置 (原为18)。数值越大越往下，200 大概在屏幕中上部视觉中心
+    const boxX = p.width / 2 - boxW / 2; // 保持水平居中不变
+
+    p.noStroke();
+    p.fill(34, 18, 56, 210);
+    p.rect(boxX, boxY, boxW, boxH, 10);
+    p.stroke(255, 226, 160, 120);
+    p.noFill();
+    p.rect(boxX, boxY, boxW, boxH, 10);
+    
+    p.noStroke();
+    p.fill(255, 247, 224);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(20); // 💡 字体大小 (原为15)
+          
+    // 文字在框内绝对居中
+    p.text(t(this._noticeKey), p.width / 2, boxY + boxH / 2); 
+  }
 
     p.pop();
   }
@@ -1003,48 +1012,54 @@ class Level8Bomb {
   }
 
   draw(p) {
-  const sheet = Assets.level8BombSheet;
+    const nowMs = performance.now();
+    const elapsedMs = nowMs - this.startMs;
+    const timeLeftMs = Math.max(0, this.durationMs - elapsedMs);
+    const timeLeftSec = (timeLeftMs / 1000).toFixed(1); // 转换成秒，并保留1位小数
 
-  // 如果贴图没加载成功，就退回到简易圆球画法
-  if (!sheet) {
+    // 计算闪烁频率：越接近爆炸，核心红点跳动得越快
+    const progress = elapsedMs / this.durationMs;
+    const pulseSpeed = 5 + progress * 20; 
+    const pulseRadius = this.size * 0.42 + Math.sin(elapsedMs / 1000 * pulseSpeed) * 3;
+
     p.push();
+
+    // 1. 画黑色炸弹本体
     p.noStroke();
     p.fill(35, 35, 42);
     p.circle(this.x + this.size / 2, this.y + this.size / 2, this.size);
+
+    // 2. 画红色的跳动核心
     p.fill(255, 90, 110);
-    p.circle(this.x + this.size / 2, this.y + this.size / 2, this.size * 0.42);
+    p.circle(this.x + this.size / 2, this.y + this.size / 2, pulseRadius);
+
+    // 3. 画倒计时文字
+    p.textAlign(p.CENTER, p.BOTTOM);
+    p.textSize(12);
+    p.textStyle(p.BOLD);
+
+    // 给文字加个黑色描边，防止在浅色背景上看不清
+    p.stroke(0, 180);
+    p.strokeWeight(2);
+
+    // 倒计时小于 2 秒时，文字变红警告
+    if (timeLeftMs <= 2000) {
+    p.fill(255, 80, 80);
+    } else {
+    p.fill(255, 240, 220);
+    }
+
+    // 重点修改：把坐标系翻转回来画文字
+    p.push(); 
+    // 第一步：先把画笔原点移动到文字应该出现的位置（炸弹偏上方）
+    p.translate(this.x + this.size / 2, this.y - 6);
+    // 第二步：将 Y 轴翻转回正常的文字方向
+    p.scale(1, -1);
+    // 第三步：在新的原点 (0,0) 画出文字
+    p.text(timeLeftSec, 0, 0);
+
     p.pop();
-    return;
   }
-
-  const nowMs = performance.now();
-  const progress = Math.min(0.999, (nowMs - this.startMs) / this.durationMs);
-
-  // 上排 4 帧炸弹
-  const frame = Math.min(3, Math.floor(progress * 4));
-
-  const cellW = sheet.width / 4;
-  const cellH = sheet.height / 2;
-
-  const sx = frame * cellW;
-  const sy = 0;
-
-  const drawSize = 42;
-
-  p.push();
-  p.image(
-    sheet,
-    this.x - 10,
-    this.y - 18,
-    drawSize,
-    drawSize,
-    sx,
-    sy,
-    cellW,
-    cellH,
-  );
-  p.pop();
- }
 }
 
 class Level8ExplosionEffect {
@@ -1065,52 +1080,23 @@ class Level8ExplosionEffect {
   }
 
   draw(p) {
-  const sheet = Assets.level8BombSheet;
-
-  // 如果贴图没加载成功，就退回到原来的光圈爆炸
-  if (!sheet) {
     const t = 1 - this.life / this.maxLife;
     const alpha = 180 * (1 - t);
     const r = this.radius * (0.18 + t * 0.82);
 
     p.push();
     p.noFill();
+        
+    // 外层金黄色爆炸冲击波
     p.stroke(255, 210, 120, alpha);
     p.strokeWeight(10 * (1 - t) + 2);
     p.circle(this.x, this.y, r * 2);
+        
+    // 内层橘红色爆炸核心
     p.stroke(255, 120, 90, alpha * 0.8);
     p.strokeWeight(4 * (1 - t) + 1);
     p.circle(this.x, this.y, r * 1.35);
+        
     p.pop();
-    return;
   }
-
-  const progress = 1 - this.life / this.maxLife;
-
-  // 下排 4 帧爆炸
-  const frame = Math.min(3, Math.floor(progress * 4));
-
-  const cellW = sheet.width / 4;
-  const cellH = sheet.height / 2;
-
-  const sx = frame * cellW;
-  const sy = cellH;
-
-  const drawW = this.radius * 1.5;
-  const drawH = this.radius * 1.5;
-
-  p.push();
-  p.image(
-    sheet,
-    this.x - drawW / 2,
-    this.y - drawH / 2,
-    drawW,
-    drawH,
-    sx,
-    sy,
-    cellW,
-    cellH,
-  );
-  p.pop();
- }
 }
