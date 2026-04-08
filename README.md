@@ -1,4 +1,4 @@
-# U help U - World 2, Level 8 🎮
+# U help U - World 2, Level 8
 
 ## Play Now
 **[Click here to play the level directly in your browser](https://lsironman789.github.io/UhelpU-copy/?world=2&level=8)**
@@ -8,7 +8,7 @@
 * Use bombs to destroy the rock pile and laser bunker;
 * Enter the portal to clear the level.
 
-## ⌨️ Controls
+## Controls
 * **W / A / S / D** : Move and Jump
 * **C** : Start/Stop Recording (Phantom Recorder)
 * **E** : Interact / Use tools
