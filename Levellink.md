@@ -3,13 +3,13 @@
 ## Play Now
 **[Click here to play the level directly in your browser](https://lsironman789.github.io/UhelpU-copy/?world=2&level=8)**
 
-*(Note: If the game doesn't load immediately, please try a hard refresh using `Ctrl + F5` or `Cmd + Shift + R`)*
+## Goal
+* Step on both buttons simultaneously to spawn a treasure chest, open it to obtain bombs;
+* Use bombs to destroy the rock pile and laser bunker;
+* Enter the portal to clear the level.
 
 ## ⌨️ Controls
 * **W / A / S / D** : Move and Jump
 * **C** : Start/Stop Recording (Phantom Recorder)
-* **Left Mouse Button** : Interact / Use tools
-* **Right Mouse Button** : Secondary action
-
----
-*Powered by JavaScript & p5.js*
+* **E** : Interact / Use tools
+* **1** : Plant bombs
