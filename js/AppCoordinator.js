@@ -18,9 +18,26 @@ export class AppCoordinator {
     this.levelManager = new LevelManager(p, this.eventBus);
   }
 
-  init() {
+  init(targetWorld, targetLevel) {
     this.bindEvents();
-    this.switcher.staticSwitcher.showMainMenu(this.p, this.eventBus);
+
+    // 检查是否接收到了来自 main.js 的链接参数
+    if (targetWorld !== undefined && targetLevel !== undefined) {
+      
+      // 根据你的 playLevelBgm 方法来看，你的关卡索引似乎是 "level1", "level8" 这样的字符串格式
+      // 这里我们将数字 8 拼接成 "level8"
+      // (如果你的实际关卡名包含 world，比如 "world2_level8"，请自行修改这行拼接逻辑)
+      let targetLevelIndex = `level${targetLevel}`; 
+
+      console.log("跳过主菜单，直接加载关卡: " + targetLevelIndex);
+
+      // 直接发布“加载关卡”的事件广播
+      this.eventBus.publish(EventTypes.LOAD_LEVEL, targetLevelIndex);
+
+    } else {
+      // 正常启动，没有任何链接参数，显示主菜单
+      this.switcher.staticSwitcher.showMainMenu(this.p, this.eventBus);
+    }
   }
 
   bindEvents() {
